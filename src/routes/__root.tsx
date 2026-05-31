@@ -72,18 +72,15 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
+      { title: "KAI — Your Inbox on Autopilot" },
       { name: "description", content: "KAI Pilot Lounge is an interactive web application that simulates an AI agent's inbox management system." },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
+      { name: "author", content: "KAI" },
+      { property: "og:title", content: "KAI — Your Inbox on Autopilot" },
       { property: "og:description", content: "KAI Pilot Lounge is an interactive web application that simulates an AI agent's inbox management system." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
-      { name: "twitter:site", content: "@Lovable" },
-      { name: "twitter:title", content: "Lovable App" },
+      { name: "twitter:title", content: "KAI — Your Inbox on Autopilot" },
       { name: "twitter:description", content: "KAI Pilot Lounge is an interactive web application that simulates an AI agent's inbox management system." },
-      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/0aada035-bc0d-456e-aabd-a5ec1ef76cba/id-preview-0d1517c9--7c019465-ed0a-4e8f-95a9-5160f8cfe146.lovable.app-1779910222154.png" },
-      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/0aada035-bc0d-456e-aabd-a5ec1ef76cba/id-preview-0d1517c9--7c019465-ed0a-4e8f-95a9-5160f8cfe146.lovable.app-1779910222154.png" },
     ],
     links: [
       {

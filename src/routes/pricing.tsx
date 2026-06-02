@@ -7,7 +7,23 @@ export const Route = createFileRoute("/pricing")({
   head: () => ({
     meta: [
       { title: "KAI // Deployment Plans" },
-      { name: "description", content: "Mission briefing: pick your KAI deployment. Single Agent or Agency Deployment." },
+      {
+        name: "description",
+        content: "Mission briefing: pick your KAI deployment. Single Agent or Agency Deployment.",
+      },
+      { property: "og:title", content: "KAI // Deployment Plans" },
+      {
+        property: "og:description",
+        content: "Mission briefing: pick your KAI deployment. Single Agent or Agency Deployment.",
+      },
+      { property: "og:image", content: "/isotipo.svg" },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
+      { name: "twitter:title", content: "KAI // Deployment Plans" },
+      {
+        name: "twitter:description",
+        content: "Mission briefing: pick your KAI deployment. Single Agent or Agency Deployment.",
+      },
     ],
   }),
   component: Pricing,
@@ -51,14 +67,20 @@ function Pricing() {
 
   return (
     <div className="min-h-screen bg-cream text-ink transition-colors duration-300">
-      <div className="bg-ink text-foreground"><SiteNav /></div>
+      <div className="bg-ink text-foreground">
+        <SiteNav />
+      </div>
 
       <main className="mx-auto max-w-7xl px-6 py-16">
         {/* BRIEFING HEADER */}
         <div className="border-b-2 border-ink pb-6 mb-12 flex flex-col md:flex-row md:items-end md:justify-between gap-6">
           <div>
-            <span className="font-mono text-[11px] tracking-widest uppercase text-ink/60">/// MISSION BRIEFING — DEPLOYMENT</span>
-            <h1 className="font-display text-5xl md:text-7xl mt-3 uppercase leading-none font-bold">Pick Your Plan</h1>
+            <span className="font-mono text-[11px] tracking-widest uppercase text-ink/60">
+              /// MISSION BRIEFING — DEPLOYMENT
+            </span>
+            <h1 className="font-display text-5xl md:text-7xl mt-3 uppercase leading-none font-bold">
+              Pick Your Plan
+            </h1>
             <p className="font-mono mt-4 max-w-2xl text-xs md:text-sm text-ink/80">
               &gt; No tiers of "almost". Two payloads. Deploy and go.
             </p>
@@ -66,22 +88,26 @@ function Pricing() {
 
           {/* DYNAMIC CYCLE SELECTOR */}
           <div className="flex items-center gap-3 shrink-0">
-            <span className={`font-mono text-xs ${billingCycle === "monthly" ? "text-ink font-bold" : "text-ink/50"}`}>
+            <span
+              className={`font-mono text-xs ${billingCycle === "monthly" ? "text-ink font-bold" : "text-ink/50"}`}
+            >
               MONTHLY
             </span>
             <button
-              onClick={() => setBillingCycle(c => c === "monthly" ? "annual" : "monthly")}
+              onClick={() => setBillingCycle((c) => (c === "monthly" ? "annual" : "monthly"))}
               className="relative w-14 h-7 border-2 border-ink bg-cream rounded-full transition-all duration-300 cursor-pointer"
             >
-              <span 
+              <span
                 className="absolute top-0.5 h-5 w-5 bg-ink rounded-full transition-all duration-300"
                 style={{
-                  left: billingCycle === "monthly" ? "4px" : "32px"
+                  left: billingCycle === "monthly" ? "4px" : "32px",
                 }}
               />
             </button>
             <div className="flex items-center gap-2">
-              <span className={`font-mono text-xs ${billingCycle === "annual" ? "text-ink font-bold" : "text-ink/50"}`}>
+              <span
+                className={`font-mono text-xs ${billingCycle === "annual" ? "text-ink font-bold" : "text-ink/50"}`}
+              >
                 ANNUAL
               </span>
               <span className="bg-ink text-cream text-[9px] font-mono font-bold px-2 py-0.5 rounded-full uppercase tracking-wider animate-pulse">
@@ -96,8 +122,8 @@ function Pricing() {
           {PLANS.map((p) => {
             const price = billingCycle === "monthly" ? p.priceMonthly : p.priceAnnual;
             return (
-              <div 
-                key={p.code} 
+              <article
+                key={p.code}
                 className="border-[3px] border-ink bg-cream p-8 md:p-10 corner-ticks relative tactile-shadow group flex flex-col justify-between"
               >
                 <span className="tick-tl" />
@@ -152,7 +178,7 @@ function Pricing() {
                     ▶ DEPLOY {p.name.split(" ")[0]}
                   </span>
                 </button>
-              </div>
+              </article>
             );
           })}
         </div>

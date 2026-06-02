@@ -8,7 +8,23 @@ export const Route = createFileRoute("/cases")({
   head: () => ({
     meta: [
       { title: "KAI // Case Files" },
-      { name: "description", content: "Classified case files: real operators, real logs. KAI in the field." },
+      {
+        name: "description",
+        content: "Classified case files: real operators, real logs. KAI in the field.",
+      },
+      { property: "og:title", content: "KAI // Case Files" },
+      {
+        property: "og:description",
+        content: "Classified case files: real operators, real logs. KAI in the field.",
+      },
+      { property: "og:image", content: "/isotipo.svg" },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
+      { name: "twitter:title", content: "KAI // Case Files" },
+      {
+        name: "twitter:description",
+        content: "Classified case files: real operators, real logs. KAI in the field.",
+      },
     ],
   }),
   component: Cases,
@@ -84,7 +100,9 @@ function Cases() {
 
       <main className="relative z-10 mx-auto max-w-6xl px-6 py-12">
         <div className="border-b border-bone/20 pb-4 mb-10">
-          <span className="font-mono text-[11px] tracking-widest text-muted-foreground uppercase">/// CLASSIFIED — CASE FILES</span>
+          <span className="font-mono text-[11px] tracking-widest text-muted-foreground uppercase">
+            /// CLASSIFIED — CASE FILES
+          </span>
           <h1 className="font-display text-4xl md:text-6xl mt-2 uppercase">Operator Logs</h1>
           <p className="font-mono mt-4 max-w-2xl text-muted-foreground text-sm">
             &gt; Authentic records. Real businesses. Edits only for privacy.
@@ -102,10 +120,16 @@ function Cases() {
                 >
                   <span className="font-mono text-xs text-lime tracking-widest">/// {c.id}</span>
                   <div>
-                    <div className="font-display text-xl md:text-2xl uppercase transition-colors duration-200 hover:text-lime">{c.name}</div>
-                    <div className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground mt-1">{c.sector}</div>
+                    <h2 className="font-display text-xl md:text-2xl uppercase transition-colors duration-200 hover:text-lime">
+                      {c.name}
+                    </h2>
+                    <div className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground mt-1">
+                      {c.sector}
+                    </div>
                   </div>
-                  <ChevronDown className={`w-5 h-5 text-muted-foreground transition-transform duration-300 ${isOpen ? "rotate-180 text-lime" : ""}`} />
+                  <ChevronDown
+                    className={`w-5 h-5 text-muted-foreground transition-transform duration-300 ${isOpen ? "rotate-180 text-lime" : ""}`}
+                  />
                 </button>
 
                 {isOpen && (
@@ -132,7 +156,9 @@ function Cases() {
                     <div className="bg-ink p-6 md:p-8 flex flex-col justify-between min-h-[400px]">
                       <div>
                         <div className="border-b border-bone/20 pb-4 mb-4">
-                          <div className="font-mono text-[10px] tracking-widest text-muted-foreground">KEY PERFORMANCE METRIC</div>
+                          <div className="font-mono text-[10px] tracking-widest text-muted-foreground">
+                            KEY PERFORMANCE METRIC
+                          </div>
                           <div className="font-display text-6xl md:text-7xl text-lime mt-2 uppercase leading-none font-bold">
                             {c.metric}
                           </div>
@@ -176,9 +202,12 @@ function CaseLogPrinter({ logs }: { logs: readonly LogEntry[] }) {
 
   useEffect(() => {
     if (visibleCount >= logs.length) return;
-    const delay = setTimeout(() => {
-      setVisibleCount(c => c + 1);
-    }, 800 + Math.random() * 400); // delay before next message appears
+    const delay = setTimeout(
+      () => {
+        setVisibleCount((c) => c + 1);
+      },
+      800 + Math.random() * 400,
+    ); // delay before next message appears
     return () => clearTimeout(delay);
   }, [visibleCount, logs]);
 

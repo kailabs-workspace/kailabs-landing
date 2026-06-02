@@ -73,14 +73,27 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { title: "KAI — Your Inbox on Autopilot" },
-      { name: "description", content: "KAI Pilot Lounge is an interactive web application that simulates an AI agent's inbox management system." },
+      {
+        name: "description",
+        content:
+          "KAI Pilot Lounge is an interactive web application that simulates an AI agent's inbox management system.",
+      },
       { name: "author", content: "KAI" },
       { property: "og:title", content: "KAI — Your Inbox on Autopilot" },
-      { property: "og:description", content: "KAI Pilot Lounge is an interactive web application that simulates an AI agent's inbox management system." },
+      {
+        property: "og:description",
+        content:
+          "KAI Pilot Lounge is an interactive web application that simulates an AI agent's inbox management system.",
+      },
       { property: "og:type", content: "website" },
+      { property: "og:image", content: "/isotipo.svg" },
       { name: "twitter:card", content: "summary" },
       { name: "twitter:title", content: "KAI — Your Inbox on Autopilot" },
-      { name: "twitter:description", content: "KAI Pilot Lounge is an interactive web application that simulates an AI agent's inbox management system." },
+      {
+        name: "twitter:description",
+        content:
+          "KAI Pilot Lounge is an interactive web application that simulates an AI agent's inbox management system.",
+      },
     ],
     links: [
       {

@@ -1,205 +1,223 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
+import { DotMatrix } from "@/components/DotMatrix";
 import { SiteNav } from "@/components/SiteNav";
-import { Check, Info } from "lucide-react";
+import { SiteFooter } from "@/components/SiteFooter";
+import { useI18n } from "@/i18n";
+import { Check, ShieldCheck, ArrowRight, Clock, Target, Sparkles, Layers } from "lucide-react";
 
 export const Route = createFileRoute("/pricing")({
   head: () => ({
     meta: [
-      { title: "KAI // Deployment Plans" },
+      { title: "KAI LABS — Engagement Models" },
       {
         name: "description",
-        content: "Mission briefing: pick your KAI deployment. Single Agent or Agency Deployment.",
+        content:
+          "High-velocity engineering models: AI Transformation Sprints, End-to-End Product Builds, and Dedicated AI Pods.",
       },
-      { property: "og:title", content: "KAI // Deployment Plans" },
+      {
+        property: "og:title",
+        content: "KAI LABS — Engagement Models",
+      },
       {
         property: "og:description",
-        content: "Mission briefing: pick your KAI deployment. Single Agent or Agency Deployment.",
+        content:
+          "High-velocity engineering models: AI Transformation Sprints, End-to-End Product Builds, and Dedicated AI Pods.",
       },
       { property: "og:image", content: "/isotipo.svg" },
       { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary" },
-      { name: "twitter:title", content: "KAI // Deployment Plans" },
+      { name: "twitter:card", content: "summary_large_image" },
+      {
+        name: "twitter:title",
+        content: "KAI LABS — Engagement Models",
+      },
       {
         name: "twitter:description",
-        content: "Mission briefing: pick your KAI deployment. Single Agent or Agency Deployment.",
+        content:
+          "High-velocity engineering models: AI Transformation Sprints, End-to-End Product Builds, and Dedicated AI Pods.",
       },
     ],
   }),
   component: Pricing,
 });
 
-const PLANS = [
-  {
-    code: "PLAN_01",
-    name: "SINGLE AGENT",
-    sub: "For solo operators",
-    priceMonthly: 149,
-    priceAnnual: 119,
-    perks: [
-      "24/7/365 coverage",
-      "1 brand · 1 voice profile",
-      "Instagram DMs + WhatsApp",
-      "Google Calendar sync",
-      "~8s response time autopilot",
-      "Inbox email triage routing",
-    ],
-  },
-  {
-    code: "PLAN_02",
-    name: "AGENCY DEPLOYMENT",
-    sub: "For multi-channel ops",
-    priceMonthly: 499,
-    priceAnnual: 399,
-    perks: [
-      "24/7/365 coverage",
-      "Unlimited brands & voices",
-      "Omni-channel sync (IG, WA, Web)",
-      "Slack alerts + Notion routes",
-      "Stripe payment + billing engine",
-      "Priority uplink support · SLA",
-    ],
-  },
-] as const;
+function Tag({ children }: { children: React.ReactNode }) {
+  return (
+    <span className="font-mono text-[10px] md:text-[11px] tracking-widest text-muted-foreground uppercase">
+      {children}
+    </span>
+  );
+}
 
 function Pricing() {
-  const [billingCycle, setBillingCycle] = useState<"monthly" | "annual">("monthly");
+  const { t } = useI18n();
 
   return (
-    <div className="min-h-screen bg-cream text-ink transition-colors duration-300">
-      <div className="bg-ink text-foreground">
-        <SiteNav />
-      </div>
+    <div className="relative min-h-screen bg-ink text-foreground overflow-hidden selection:bg-lime selection:text-ink">
+      <DotMatrix />
+      <SiteNav />
 
-      <main className="mx-auto max-w-7xl px-6 py-16">
-        {/* BRIEFING HEADER */}
-        <div className="border-b-2 border-ink pb-6 mb-12 flex flex-col md:flex-row md:items-end md:justify-between gap-6">
-          <div>
-            <span className="font-mono text-[11px] tracking-widest uppercase text-ink/60">
-              /// MISSION BRIEFING — DEPLOYMENT
-            </span>
-            <h1 className="font-display text-5xl md:text-7xl mt-3 uppercase leading-none font-bold">
-              Pick Your Plan
+      <main className="relative z-10 mx-auto max-w-7xl px-3 sm:px-5 lg:px-6 py-8 md:py-12">
+        {/* HEADER */}
+        <div className="border-b border-bone/20 pb-4 mb-6">
+          <Tag>{t.pricing.tag}</Tag>
+          <div className="flex flex-wrap items-end justify-between gap-3 mt-1.5">
+            <h1 className="font-display text-2xl sm:text-3xl md:text-4xl uppercase text-foreground">
+              {t.pricing.title}
             </h1>
-            <p className="font-mono mt-4 max-w-2xl text-xs md:text-sm text-ink/80">
-              &gt; No tiers of "almost". Two payloads. Deploy and go.
-            </p>
-          </div>
-
-          {/* DYNAMIC CYCLE SELECTOR */}
-          <div className="flex items-center gap-3 shrink-0">
-            <span
-              className={`font-mono text-xs ${billingCycle === "monthly" ? "text-ink font-bold" : "text-ink/50"}`}
-            >
-              MONTHLY
+            <span className="font-mono text-[11px] text-lime flex items-center gap-1.5">
+              <span className="h-1.5 w-1.5 rounded-full bg-lime led-active" />
+              {t.pricing.statusReady}
             </span>
-            <button
-              onClick={() => setBillingCycle((c) => (c === "monthly" ? "annual" : "monthly"))}
-              className="relative w-14 h-7 border-2 border-ink bg-cream rounded-full transition-all duration-300 cursor-pointer"
-            >
-              <span
-                className="absolute top-0.5 h-5 w-5 bg-ink rounded-full transition-all duration-300"
-                style={{
-                  left: billingCycle === "monthly" ? "4px" : "32px",
-                }}
-              />
-            </button>
-            <div className="flex items-center gap-2">
-              <span
-                className={`font-mono text-xs ${billingCycle === "annual" ? "text-ink font-bold" : "text-ink/50"}`}
-              >
-                ANNUAL
-              </span>
-              <span className="bg-ink text-cream text-[9px] font-mono font-bold px-2 py-0.5 rounded-full uppercase tracking-wider animate-pulse">
-                Save 20%
-              </span>
-            </div>
           </div>
+          <p className="font-mono mt-2 max-w-xl text-muted-foreground text-[11px] md:text-xs leading-relaxed">
+            {t.pricing.subtitle}
+          </p>
         </div>
 
-        {/* PLANS GRID */}
-        <div className="grid md:grid-cols-2 gap-8">
-          {PLANS.map((p) => {
-            const price = billingCycle === "monthly" ? p.priceMonthly : p.priceAnnual;
+        {/* 3 ENGAGEMENT MODELS GRID */}
+        <div className="grid lg:grid-cols-3 gap-4.5 mb-10">
+          {t.pricing.models.map((m) => {
+            const isFeatured = m.featured;
             return (
               <article
-                key={p.code}
-                className="border-[3px] border-ink bg-cream p-8 md:p-10 corner-ticks relative tactile-shadow group flex flex-col justify-between"
+                key={m.code}
+                className={`border p-4 sm:p-5 corner-ticks relative flex flex-col justify-between transition-all duration-300 ${
+                  isFeatured
+                    ? "border-lime bg-ink/90 shadow-[0_0_25px_rgba(212,245,66,0.12)]"
+                    : "border-bone/20 bg-ink/65 hover:border-bone/40"
+                }`}
               >
                 <span className="tick-tl" />
                 <span className="tick-br" />
 
                 <div>
-                  <div className="flex items-start justify-between font-mono text-[11px] tracking-widest uppercase">
-                    <span className="text-ink/60">/// {p.code}</span>
-                    <span className="flex items-center gap-1">
-                      <span className="h-1.5 w-1.5 rounded-full bg-ink animate-ping" />
-                      STATUS: READY
-                    </span>
+                  <div className="flex items-center justify-between font-mono text-[9px] tracking-widest uppercase border-b border-bone/15 pb-2.5 mb-3.5">
+                    <span className="text-lime font-bold">// {m.code}</span>
+                    {isFeatured ? (
+                      <span className="px-1.5 py-0.2 bg-lime text-ink font-bold text-[8.5px] flex items-center gap-1">
+                        <Sparkles className="w-2.5 h-2.5" />
+                        {t.pricing.statusReady === "DISPONIBLE" ? "RECOMENDADO" : "RECOMMENDED"}
+                      </span>
+                    ) : (
+                      <span className="text-muted-foreground flex items-center gap-1">
+                        <span className="h-1.5 w-1.5 rounded-full bg-lime led-active" />
+                        {t.pricing.statusReady}
+                      </span>
+                    )}
                   </div>
 
-                  <h2 className="font-display text-3xl md:text-4xl mt-6 uppercase leading-none font-bold">
-                    {p.name}
+                  <h2 className="font-display text-xl uppercase text-foreground mb-0.5">
+                    {m.name}
                   </h2>
-                  <div className="font-mono text-xs uppercase tracking-widest mt-2 text-ink/70">
-                    &gt; {p.sub}
-                  </div>
+                  <p className="font-mono text-[11px] text-lime mb-3.5">&gt; {m.tagline}</p>
 
-                  {/* PRICE DISPLAY */}
-                  <div className="mt-8 flex items-end gap-2 border-b-2 border-ink/15 pb-6">
-                    <div className="relative overflow-hidden flex items-end">
-                      <span className="font-display text-7xl md:text-8xl uppercase leading-none font-bold tracking-tighter">
-                        €{price}
+                  <div className="bg-graphite/40 border border-bone/15 p-2.5 mb-3.5 space-y-1.5">
+                    <div className="flex items-center gap-1.5 font-mono text-[11px] text-foreground">
+                      <Clock className="w-3 h-3 text-lime shrink-0" />
+                      <span>
+                        <strong>{t.home.contactForm.timelineLabel}:</strong> {m.timeline}
                       </span>
                     </div>
-                    <div className="font-mono text-xs pb-3 flex flex-col">
-                      <span className="font-bold">/ MONTH</span>
-                      <span className="text-[10px] text-ink/65 uppercase">
-                        {billingCycle === "annual" ? "Billed Annually" : "Billed Monthly"}
-                      </span>
+                    <div className="flex items-start gap-1.5 font-mono text-[10.5px] text-muted-foreground">
+                      <Target className="w-3 h-3 text-lime shrink-0 mt-0.5" />
+                      <span>{m.idealFor}</span>
                     </div>
                   </div>
 
-                  {/* PERKS LIST */}
-                  <ul className="mt-8 space-y-3 font-mono text-xs md:text-sm">
-                    {p.perks.map((perk) => (
-                      <li key={perk} className="flex items-start gap-2.5 group/perk">
-                        <Check className="w-4.5 h-4.5 text-ink border border-ink/20 p-0.5 mt-0.5 shrink-0 group-hover/perk:border-ink transition-colors duration-200" />
-                        <span className="text-ink/85">{perk}</span>
-                      </li>
+                  <div className="space-y-1.5 mb-4">
+                    <div className="font-mono text-[9px] uppercase tracking-widest text-muted-foreground">
+                      // {t.pricing.deliverablesLabel}
+                    </div>
+                    {m.deliverables.map((d, dIdx) => (
+                      <div
+                        key={dIdx}
+                        className="flex items-start gap-1.5 font-mono text-[11px] text-foreground"
+                      >
+                        <Check className="w-3 h-3 text-lime shrink-0 mt-0.5" />
+                        <span>{d}</span>
+                      </div>
                     ))}
-                  </ul>
+                  </div>
                 </div>
 
-                {/* DEPLOY BUTTON */}
-                <button className="group relative mt-10 w-full bg-ink text-cream py-5 font-mono text-sm uppercase tracking-widest border-2 border-ink overflow-hidden cursor-pointer select-none">
-                  <span className="absolute inset-0 bg-lime translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out" />
-                  <span className="relative group-hover:text-ink transition-colors duration-200 font-bold flex items-center justify-center gap-2">
-                    ▶ DEPLOY {p.name.split(" ")[0]}
-                  </span>
-                </button>
+                <div className="pt-2.5 border-t border-bone/15">
+                  <a
+                    href="/#contact"
+                    className={`w-full py-2 font-mono text-[11px] font-bold uppercase tracking-widest flex items-center justify-center gap-1.5 transition-all ${
+                      isFeatured
+                        ? "bg-lime text-ink hover:bg-lime/90"
+                        : "border border-bone/30 text-foreground hover:border-lime hover:text-lime"
+                    }`}
+                  >
+                    <span>{t.pricing.ctaBtn}</span>
+                    <ArrowRight className="w-3 h-3" />
+                  </a>
+                </div>
               </article>
             );
           })}
         </div>
 
-        {/* BRIEFING FOOTER */}
-        <div className="mt-16 border-t-2 border-ink pt-6 flex flex-wrap items-center justify-between gap-4 font-mono text-[11px] uppercase tracking-widest text-ink/60">
-          <span>END OF BRIEFING</span>
-          <span className="flex items-center gap-2">
-            <Info className="w-3.5 h-3.5" />
-            <span>NO SETUP FEE · CANCEL ANYTIME · INVOICED MONTHLY</span>
-          </span>
+        {/* COMPARISON MATRIX VS TRADITIONAL CONSULTANCIES */}
+        <div className="border border-bone/20 bg-ink/80 p-4 sm:p-5 md:p-6 corner-ticks relative mb-8">
+          <span className="tick-tl" />
+          <span className="tick-br" />
+
+          <div className="flex items-center justify-between border-b border-bone/20 pb-2 mb-4">
+            <h2 className="font-display text-lg md:text-2xl uppercase text-foreground">
+              {t.pricing.comparison.title}
+            </h2>
+          </div>
+
+          <div className="overflow-x-auto">
+            <table className="w-full text-left font-mono text-[11px] border-collapse">
+              <thead>
+                <tr className="border-b border-bone/20 text-muted-foreground uppercase text-[9px] tracking-widest">
+                  <th className="py-2 pr-3">{t.pricing.comparison.columns[0]}</th>
+                  <th className="py-2 px-3 text-muted-foreground/70">
+                    {t.pricing.comparison.columns[1]}
+                  </th>
+                  <th className="py-2 pl-3 text-lime bg-lime/5 border-l border-r border-lime/20">
+                    {t.pricing.comparison.columns[2]}
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-bone/10">
+                {t.pricing.comparison.rows.map((row, rIdx) => (
+                  <tr key={rIdx} className="hover:bg-graphite/20 transition-colors">
+                    <td className="py-2 pr-3 text-foreground font-semibold">{row.feature}</td>
+                    <td className="py-2 px-3 text-muted-foreground">{row.traditional}</td>
+                    <td className="py-2 pl-3 text-lime font-bold bg-lime/5 border-l border-r border-lime/20">
+                      {row.kaiLabs}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
 
-        {/* corner-ticks tweak for cream surface */}
-        <style>{`
-          .bg-cream .corner-ticks::before, .bg-cream .corner-ticks::after,
-          .bg-cream .corner-ticks > .tick-tl, .bg-cream .corner-ticks > .tick-br {
-            border-color: var(--ink) !important;
-          }
-        `}</style>
+        {/* BOTTOM GUARANTEE & CODEBASE OWNERSHIP */}
+        <div className="grid md:grid-cols-2 gap-3 font-mono text-[11px] text-muted-foreground">
+          <div className="border border-bone/15 p-3.5 bg-ink/60 flex items-start gap-2.5">
+            <ShieldCheck className="w-4 h-4 text-lime shrink-0 mt-0.5" />
+            <div>
+              <div className="text-foreground font-bold uppercase mb-0.5">
+                {t.pricing.guaranteeTitle}
+              </div>
+              <p>{t.pricing.guarantee}</p>
+            </div>
+          </div>
+          <div className="border border-bone/15 p-3.5 bg-ink/60 flex items-start gap-2.5">
+            <Layers className="w-4 h-4 text-lime shrink-0 mt-0.5" />
+            <div>
+              <div className="text-foreground font-bold uppercase mb-0.5">{t.pricing.ipTitle}</div>
+              <p>{t.pricing.customNote}</p>
+            </div>
+          </div>
+        </div>
       </main>
+      <SiteFooter />
     </div>
   );
 }

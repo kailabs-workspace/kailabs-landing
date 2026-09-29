@@ -16,6 +16,8 @@ dist-ssr
 .nitro
 *.local
 .vercel/**
+.vercel
+src/routeTree.gen.ts
 
 # Wrangler / Cloudflare
 .wrangler/

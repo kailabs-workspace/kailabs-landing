@@ -1,8 +1,12 @@
 import { useEffect, useRef, useState } from "react";
-
-const WORDS = "We don't replace your tools — we give them an agent.".split(" ");
+import { useI18n } from "@/i18n";
+import { useTheme } from "@/theme";
 
 export function Manifesto() {
+  const { t } = useI18n();
+  const { theme } = useTheme();
+  const isDark = theme === "dark";
+  const words = t.home.manifestoWords;
   const ref = useRef<HTMLParagraphElement>(null);
   const [progress, setProgress] = useState(0);
 
@@ -25,18 +29,42 @@ export function Manifesto() {
   return (
     <p
       ref={ref}
-      className="font-display text-4xl md:text-6xl lg:text-7xl tracking-tighter leading-[0.9] text-center"
+      className="font-display text-2xl sm:text-3xl md:text-4xl lg:text-5xl tracking-tighter leading-[0.95] text-center"
     >
-      {WORDS.map((w, i) => {
-        const t = (i + 1) / WORDS.length;
-        const lit = progress >= t;
-        const isAccent = w.toLowerCase().includes("agent");
+      {words.map((w, i) => {
+        const tr = (i + 1) / words.length;
+        const lit = progress >= tr;
+        const lw = w.toLowerCase();
+        const isAccent =
+          lw.includes("agent") ||
+          lw.includes("agente") ||
+          lw.includes("ai-native") ||
+          lw.includes("native") ||
+          lw.includes("nativo") ||
+          lw.includes("autonomous") ||
+          lw.includes("autónom") ||
+          lw.includes("systems") ||
+          lw.includes("sistemas");
+
+        let wordColor = "";
+        if (lit) {
+          if (isAccent) {
+            wordColor = isDark ? "#D4F542" : "#0A0A0A";
+          } else {
+            wordColor = isDark ? "#F4F1E8" : "#0A0A0A";
+          }
+        } else {
+          wordColor = isDark ? "rgba(244, 241, 232, 0.14)" : "rgba(10, 10, 10, 0.16)";
+        }
+
         return (
           <span
-            key={i}
-            className="inline-block transition-all duration-500 ease-out"
+            key={`${w}-${i}`}
+            className={`inline-block transition-all duration-500 ease-out ${
+              lit && isAccent && !isDark ? "underline decoration-lime decoration-4" : ""
+            }`}
             style={{
-              color: lit ? (isAccent ? "var(--lime)" : "#ffffff") : "rgba(255,255,255,0.08)",
+              color: wordColor,
               transform: lit ? "translateY(0px) scale(1)" : "translateY(15px) scale(0.96)",
               filter: lit ? "blur(0px)" : "blur(3px)",
               marginRight: "0.2em",

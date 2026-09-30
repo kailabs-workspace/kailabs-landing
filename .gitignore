@@ -15,6 +15,9 @@ dist-ssr
 .tanstack/**
 .nitro
 *.local
+.vercel/**
+.vercel
+src/routeTree.gen.ts
 
 # Wrangler / Cloudflare
 .wrangler/

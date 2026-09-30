@@ -11,12 +11,15 @@ export function DotMatrix() {
     if (!ctx) return;
 
     let raf = 0;
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
-    const SPACING = 28;
-    const RADIUS = 110;
+    const isMobile = window.innerWidth < 768;
+    const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+    const SPACING = isMobile ? 32 : 28;
+    const RADIUS = isMobile ? 80 : 110;
 
     type Dot = { x: number; y: number; ox: number; oy: number; vx: number; vy: number };
     let dots: Dot[] = [];
+    let isMoving = true;
+    let idleCounter = 0;
 
     const resize = () => {
       canvas.width = window.innerWidth * dpr;
@@ -30,17 +33,33 @@ export function DotMatrix() {
           dots.push({ x, y, ox: x, oy: y, vx: 0, vy: 0 });
         }
       }
+      isMoving = true;
+      idleCounter = 0;
+    };
+
+    const wakeUp = () => {
+      isMoving = true;
+      idleCounter = 0;
+      if (!raf) {
+        raf = requestAnimationFrame(tick);
+      }
     };
 
     const onMove = (e: MouseEvent) => {
       mouseRef.current.x = e.clientX;
       mouseRef.current.y = e.clientY;
+      wakeUp();
     };
-    const onLeave = () => { mouseRef.current.x = -9999; mouseRef.current.y = -9999; };
+    const onLeave = () => {
+      mouseRef.current.x = -9999;
+      mouseRef.current.y = -9999;
+    };
 
     const tick = () => {
+      const isLight = document.documentElement.classList.contains("light");
       ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
       const { x: mx, y: my } = mouseRef.current;
+      let totalMovement = 0;
 
       for (const d of dots) {
         const dx = d.x - mx;
@@ -64,26 +83,43 @@ export function DotMatrix() {
         d.x += d.vx;
         d.y += d.vy;
 
+        totalMovement += Math.abs(d.vx) + Math.abs(d.vy);
+
         const r = 1 + glow * 1.5;
         if (glow > 0.05) {
-          ctx.fillStyle = `rgba(212, 245, 66, ${0.25 + glow * 0.75})`;
+          ctx.fillStyle = isLight
+            ? `rgba(10, 10, 10, ${0.4 + glow * 0.55})`
+            : `rgba(212, 245, 66, ${0.25 + glow * 0.75})`;
         } else {
-          ctx.fillStyle = "rgba(255,255,255,0.07)";
+          ctx.fillStyle = isLight ? "rgba(10,10,10,0.065)" : "rgba(255,255,255,0.07)";
         }
         ctx.beginPath();
         ctx.arc(d.x, d.y, r, 0, Math.PI * 2);
         ctx.fill();
       }
+
+      // Check if settled to save CPU/GPU cycles on slow devices
+      if (mx === -9999 && totalMovement < 0.05) {
+        idleCounter++;
+        if (idleCounter > 40) {
+          isMoving = false;
+          raf = 0;
+          return; // pause RAF loop until next pointer activity
+        }
+      } else {
+        idleCounter = 0;
+      }
+
       raf = requestAnimationFrame(tick);
     };
 
     resize();
-    tick();
+    raf = requestAnimationFrame(tick);
     window.addEventListener("resize", resize);
     window.addEventListener("mousemove", onMove);
     window.addEventListener("mouseleave", onLeave);
     return () => {
-      cancelAnimationFrame(raf);
+      if (raf) cancelAnimationFrame(raf);
       window.removeEventListener("resize", resize);
       window.removeEventListener("mousemove", onMove);
       window.removeEventListener("mouseleave", onLeave);
@@ -91,10 +127,6 @@ export function DotMatrix() {
   }, []);
 
   return (
-    <canvas
-      ref={canvasRef}
-      className="pointer-events-none fixed inset-0 z-0"
-      aria-hidden="true"
-    />
+    <canvas ref={canvasRef} className="pointer-events-none fixed inset-0 z-0" aria-hidden="true" />
   );
 }
